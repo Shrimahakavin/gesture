@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Gesture Recognition Prototype</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            margin-top: 20px;
+        }
+        #videoContainer {
+            position: relative;
+            margin-top: 30px;
+        }
+        video {
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            width: 80%;
+        }
+        #outputText {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sign Language Gesture Recognition Prototype</h1>
+
+<div id="videoContainer">
+    <video id="webcamVideo" width="640" height="480" autoplay></video>
+</div>
+
+<button onclick="startWebcam()">Start Webcam</button>
+<button onclick="simulateGesture('Hello')">Simulate "Hello" Gesture</button>
+<button onclick="simulateGesture('Bye')">Simulate "Bye" Gesture</button>
+
+<div id="outputText">Detected Gesture: None</div>
+
+<script>
+    let webcamStream;
+    async function startWebcam() {
+        const videoElement = document.getElementById('webcamVideo');
+        try {
+            webcamStream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoElement.srcObject = webcamStream;
+        } catch (error) {
+            console.error('Error accessing webcam:', error);
+        }
+    }
+    function simulateGesture(gesture) {
+        document.getElementById('outputText').innerText = `Detected Gesture: ${gesture}`;
+        speak(gesture);
+    }
+
+    // Function to speak the recognized gesture
+    function speak(text) {
+        const speech = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(speech);
+    }
+</script>
+
+</body>
+</html>
